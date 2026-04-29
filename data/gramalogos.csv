@@ -1,92 +1,92 @@
-﻿palabra,ruta_imagen,id_posicion
-para,Imagen,1
-pero,Imagen,2
-banco,Imagen,1
-bien,Imagen,2
-bueno,Imagen,3
-México,Imagen,1
-como,Imagen,3
-con,Imagen,2
-"algo, algun",Imagen,1
-tiempo,Imagen,2
-y,Imagen,1
-a,Imagen,1
-en,Imagen,1
-"un, unos",Imagen,1
-mañana,Imagen,1
-numero,Imagen,3
-muy,Imagen,3
-mucho,Imagen,3
-favor,Imagen,1
-fecha,Imagen,2
-mayo,Imagen,1
-noviembre,Imagen,3
-febrero,Imagen,3
-"familia, familiar",Imagen,1
-capital,Imagen,2
-documento,Imagen,3
-comunico,Imagen,3
-gobierno,Imagen,3
-regular,Imagen,2
-republica,Imagen,2
-republica mexicana,Imagen,3
-razon,Imagen,1
-usted,Imagen,3
-ferrocarril,Imagen,2
-orden,Imagen,3
-especial,Imagen,3
-seguro servidor,Imagen,3
-a la,Imagen,1
-a lo,Imagen,3
-irregular,Imagen,2
-"economico, economia",Imagen,2
-aunque,Imagen,1
-dia,Imagen,1
-hay,Imagen,1
-aeroplano,Imagen,1
-hoy ,Imagen,2
-aun,Imagen,1
-facil,Imagen,1
-certificado,Imagen,2
-negocio,Imagen,2
-es posible,Imagen,3
-posible,Imagen,3
-"oficio, oficina, oficial",Imagen,3
-señor,Imagen,2
-señora,Imagen,2
-"demas, ademas",Imagen,1
-sin embargo,Imagen,3
-no obstante,Imagen,3
-nosotros,Imagen,3
-copia certificada,Imagen,3
-satisfacer,Imagen,3
-suceso,Imagen,3
-muy señor mio,Imagen,3
-muy señor mio y amigo,Imagen,3
-no es posible,Imagen,3
-satisfactorio,Imagen,1
-satisfecho,Imagen,3
-satisfaga,Imagen,1
-"necesario, necesidad",Imagen,2
-no es necesario,Imagen,3
-sucesor,Imagen,3
-sucesivo,Imagen,3
-es necesario,Imagen,3
-soto,Imagen,3
-mas,Imagen,2
-cose,Imagen,3
-decide,Imagen,3
-susto,Imagen,3
-masas,Imagen,2
-acosase,Imagen,1
-desiste,Imagen,3
-recita,Imagen,3
-pasado,Imagen,3
-alisan,Imagen,2
-cerro,Imagen,3
-las ,Imagen,1
-riza,Imagen,3
-lazaste,Imagen,2
+﻿palabra,archivo_imagen,id_posicion
+para,para.jpeg,1
+pero,pero.jpeg,2
+banco,banco.jpeg,1
+bien,bien.jpeg,2
+bueno,bueno.jpeg,3
+México,mexico.jpeg,1
+como,como.jpeg,3
+con,con.jpeg,2
+"algo, algun",algo.jpeg,1
+tiempo,tiempo.jpeg,2
+y,y.jpeg,1
+a,a.jpeg,1
+en,en.jpeg,1
+"un, unos",un.jpeg,1
+mañana,manana.jpeg,1
+numero,numero.jpeg,3
+muy,muy.jpeg,3
+mucho,mucho.jpeg,3
+favor,favor.jpeg,1
+fecha,fecha.jpeg,2
+mayo,mayo.jpeg,1
+noviembre,noviembre.jpeg,3
+febrero,febrero.jpeg,3
+"familia, familiar",familia.jpeg,1
+capital,capital.jpeg,2
+documento,documento.jpeg,3
+comunico,comunico.jpeg,3
+gobierno,gobierno.jpeg,3
+regular,regular.jpeg,2
+republica,republica.jpeg,2
+republica mexicana,republica_mexicana.jpeg,3
+razon,razon.jpeg,1
+usted,usted.jpeg,3
+ferrocarril,ferrocarril.jpeg,2
+orden,orden.jpeg,3
+especial,especial.jpeg,3
+seguro servidor,seguro.jpeg,3
+a la,a_la.jpeg,1
+a lo,a_lo.jpeg,3
+irregular,irregular.jpeg,2
+"economico, economia",economico.jpeg,2
+aunque,aunque.jpeg,1
+dia,dia.jpeg,1
+hay,hay.jpeg,1
+aeroplano,aeroplano.jpeg,1
+hoy ,hoy.jpeg,2
+aun,aun.jpeg,1
+facil,facil.jpeg,1
+certificado,certificado.jpeg,2
+negocio,negocio.jpeg,2
+es posible,es_posible.jpeg,3
+posible,posible.jpeg,3
+"oficio, oficina, oficial",oficio.jpeg,3
+señor,señor.jpeg,2
+señora,señora.jpeg,2
+"demas, ademas",ademas.jpeg,1
+sin embargo,sin_embargo.jpeg,3
+no obstante,no_obstante.jpeg,3
+nosotros,nosotros.jpeg,3
+copia certificada,copia_certificada.jpeg,3
+satisfacer,satisfacer.jpeg,3
+suceso,suceso.jpeg,3
+muy señor mio,señor_mio.jpeg,3
+muy señor mio y amigo,amigo.jpeg,3
+no es posible,no_posible.jpeg,3
+satisfactorio,satisfactorio.jpeg,1
+satisfecho,satisfecho.jpeg,3
+satisfaga,satisfaga.jpeg,1
+"necesario, necesidad",necesidad.jpeg,2
+no es necesario,no_necesario.jpeg,3
+sucesor,sucesor.jpeg,3
+sucesivo,sucesivo.jpeg,3
+es necesario,es_necesario.jpeg,3
+soto,soto.jpeg,3
+mas,mas.jpeg,2
+cose,cose.jpeg,3
+decide,decide.jpeg,3
+susto,susto.jpeg,3
+masas,masas.jpeg,2
+acosase,acosase.jpeg,1
+desiste,desiste.jpeg,3
+recita,recita.jpeg,3
+pasado,pasado.jpeg,3
+alisan,alisan.jpeg,2
+cerro,cerro.jpeg,3
+las ,las.jpeg,1
+riza,riza.jpeg,3
+lazaste,lazaste.jpeg,2
 ,,
 ,,
 ,,
