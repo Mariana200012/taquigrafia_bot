@@ -1,6 +1,7 @@
 import math
 from PIL import Image, ImageDraw
 import sqlite3
+import os
 
 def obtener_datos_consonante(fonema):
     conn = sqlite3.connect('data/taquigrafia.db')
@@ -11,41 +12,52 @@ def obtener_datos_consonante(fonema):
     return res
 
 def generar_trazo(lista_fonemas):
-    # Crear un lienzo blanco (RGBA para transparencia si quieres)
+    # Asegurarnos de que la carpeta assets exista para guardar el temporal
+    if not os.path.exists('assets'):
+        os.makedirs('assets')
+
+    # Crear un lienzo blanco
     img = Image.new('RGB', (600, 400), 'white')
     draw = ImageDraw.Draw(img)
     
-    # Punto inicial (centro del lienzo)
-    x_actual, y_actual = 100, 200
-    largo_trazo = 50 # Longitud de cada letra
+    # Punto inicial
+    x_actual, y_actual = 150, 200
+    largo_trazo = 60 
     
     for fonema in lista_fonemas:
         datos = obtener_datos_consonante(fonema)
-        if not datos: continue
+        if not datos: 
+            print(f"Fonema {fonema} no encontrado en la DB.")
+            continue
         
-        tipo, grosor, angulo_grados = datos
+        tipo, grosor, angulo_sucio = datos
         
-        # --- LA MATEMÁTICA DE LA IA ---
-        # Convertimos grados a radianes porque Python usa radianes
-        # Nota: En taquigrafía, los ángulos suelen medirse distinto al círculo unitario estándar,
-        # ajustamos para que 90° sea hacia abajo y 180° a la izquierda.
-        radianes = math.radians(angulo_grados)
-        
+        # --- LIMPIEZA DE DATOS CRÍTICA ---
+        try:
+            # Quitamos el símbolo de grado y convertimos a número decimal
+            angulo_numerico = float(str(angulo_sucio).replace('°', '').strip())
+            radianes = math.radians(angulo_numerico)
+        except (ValueError, TypeError):
+            print(f"Error: No se pudo convertir el ángulo '{angulo_sucio}' a número.")
+            continue
+
+        # Calcular coordenadas finales
+        # Usamos seno y coseno para la trayectoria geométrica
         x_final = x_actual + largo_trazo * math.cos(radianes)
         y_final = y_actual + largo_trazo * math.sin(radianes)
         
-        # Configurar grosor
+        # Configurar grosor según la tabla
         ancho = 5 if grosor == 'grueso' else 2
         
-        # Dibujar (Si es recto)
+        # Dibujar según el tipo
+        color = "black"
         if tipo == 'recto':
-            draw.line([(x_actual, y_actual), (x_final, y_final)], fill="black", width=ancho)
+            draw.line([(x_actual, y_actual), (x_final, y_final)], fill=color, width=ancho)
         else:
-            # Aquí podrías programar arcos para los "curvos"
-            # Por ahora, para que funcione, haremos una línea punteada o curva simple
+            # Por ahora dibujamos recto, pero en azul para distinguir los curvos
             draw.line([(x_actual, y_actual), (x_final, y_final)], fill="blue", width=ancho)
         
-        # El final de esta letra es el inicio de la siguiente
+        # Actualizar posición para el siguiente fonema (encadenamiento)
         x_actual, y_actual = x_final, y_final
         
     # Guardar imagen temporal
