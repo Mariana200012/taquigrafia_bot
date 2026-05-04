@@ -1,0 +1,8 @@
+# Entorno virtual y carpetas de sistema
+__pycache__/
+venv/
+.env
+
+# Archivos temporales o de base de datos que no deben subirse
+data/taquigrafia.db
+assets/temp_generado.png
