@@ -13,75 +13,99 @@ load_dotenv()
 # --- CONFIGURACIÓN DE RUTAS Y TOKEN ---
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 DB_PATH = os.getenv('DB_PATH', 'data/taquigrafia.db')
-ASSETS_PATH = os.getenv('ASSETS_PATH', 'assets/gramalogos') 
-SIGNOS_PATH = os.getenv('SIGNOS_PATH', 'assets/signos')
+BASE_ASSETS = os.getenv('ASSETS_PATH', 'assets')
 
 # --- FUNCIONES DE BÚSQUEDA ---
-def buscar_en_db(tabla, columna_busqueda, valor):
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    query = f"SELECT archivo_imagen FROM {tabla} WHERE LOWER({columna_busqueda}) = ?"
-    cursor.execute(query, (valor.lower(),))
-    resultado = cursor.fetchone()
-    conn.close()
-    return resultado[0] if resultado else None
+def buscar_en_db(tabla, columna_busqueda, valor, columna_retorno='archivo_imagen'):
+    """Busca en la DB y devuelve el nombre del archivo de imagen."""
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        query = f"SELECT {columna_retorno} FROM {tabla} WHERE LOWER({columna_busqueda}) = ?"
+        cursor.execute(query, (valor.lower(),))
+        resultado = cursor.fetchone()
+        conn.close()
+        return resultado[0] if resultado else None
+    except Exception as e:
+        print(f"Error al buscar en DB ({tabla}): {e}")
+        return None
 
 # --- COMANDO DE INICIO ---
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("¡Hola Mariana! Soy tu bot de taquigrafía. Escribe una frase y generaré el trazo corrido (ligado) de todas las palabras.")
+    await update.message.reply_text(
+        "¡Hola Mariana! Soy tu bot de taquigrafía.\n\n"
+        "Escribe una frase y generaré el trazo híbrido ligado, o enviaré "
+        "la imagen directa si es un gramálogo (suelto o compuesto)."
+    )
 
-# --- LÓGICA DE FRASE CORRIDA ---
+# --- LÓGICA DE CONTROL ---
 async def procesar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto_usuario = update.message.text.strip()
+    item_lower = texto_usuario.lower()
     
-    # Extraemos las palabras o signos usando una expresión regular
+    # --- PASO 1: ¿TODA LA FRASE ES UN GRAMÁLOGO? (Ej: "a lo", "a la", "para") ---
+    # Buscamos primero en signos por si es un símbolo único
+    archivo_signo = buscar_en_db('signos', 'signo', item_lower)
+    if archivo_signo:
+        ruta_signo = os.path.join(BASE_ASSETS, 'signos', archivo_signo)
+        if os.path.exists(ruta_signo):
+            with open(ruta_signo, 'rb') as photo:
+                await update.message.reply_photo(photo=photo, caption=f"Signo: {texto_usuario}")
+            return
+
+    # Buscamos en gramálogos (esto detecta "para" y también "a lo" si está en la DB)
+    archivo_gram = buscar_en_db('gramalogos', 'palabra', item_lower)
+    if archivo_gram:
+        ruta_gram = os.path.join(BASE_ASSETS, 'gramalogos', archivo_gram)
+        if os.path.exists(ruta_gram):
+            with open(ruta_gram, 'rb') as photo:
+                await update.message.reply_photo(photo=photo, caption=f"Gramálogo: {texto_usuario}")
+            return
+
+    # --- PASO 2: LÓGICA DE FRASE COMPUESTA (Si no se encontró lo anterior) ---
+    # Dividimos la frase para procesar palabra por palabra y ligarlas
     elementos = re.findall(r'\w+|[^\w\s]', texto_usuario)
-    fonemas_totales = []
-    hay_ia = False
+    elementos_procesados = []
 
     for item in elementos:
-        # 1. ¿Es un signo de puntuación?
-        archivo_signo = buscar_en_db('signos', 'signo', item)
-        if archivo_signo:
-            fonemas_palabra = texto_a_fonemas(item)
-            if fonemas_palabra:
-                fonemas_totales.extend(fonemas_palabra)
-                hay_ia = True
-            continue
-
-        # 2. ¿Es un gramálogo?
-        archivo_gram = buscar_en_db('gramalogos', 'palabra', item)
-        if archivo_gram:
-            fonemas_palabra = texto_a_fonemas(item)
-            if fonemas_palabra:
-                fonemas_totales.extend(fonemas_palabra)
-                hay_ia = True
-            continue
-
-        # 3. Procesamiento estándar de consonantes
-        fonemas_palabra = texto_a_fonemas(item)
-        if fonemas_palabra:
-            fonemas_totales.extend(fonemas_palabra)
-            hay_ia = True
-
-    if fonemas_totales:
-        await update.message.reply_text("Generando trazo corrido de la frase...")
-        ruta_generada = generar_trazo(lista_fonemas=fonemas_totales)
+        item_l = item.lower()
         
-        if os.path.exists(ruta_generada):
-            with open(ruta_generada, 'rb') as photo:
-                await update.message.reply_photo(
-                    photo=photo, 
-                    caption=f"Escritura corrida: {texto_usuario}\nSonidos: {'-'.join(fonemas_totales)}"
-                )
+        # ¿La palabra individual es un gramálogo o signo?
+        es_gram = buscar_en_db('gramalogos', 'palabra', item_l)
+        es_sig = buscar_en_db('signos', 'signo', item_l)
+        
+        if es_gram or es_sig:
+            elementos_procesados.append(item_l)
+            continue
+
+        # Si no es un atajo, pasamos al fonetizador
+        fonemas_palabra = texto_a_fonemas(item_l)
+        if fonemas_palabra:
+            elementos_procesados.extend(fonemas_palabra)
+
+    # --- PASO 3: GENERACIÓN DE IMAGEN HÍBRIDA (Motor IA) ---
+    if elementos_procesados:
+        await update.message.reply_text("Analizando secuencia... Generando trazo híbrido.")
+        try:
+            ruta_generada = generar_trazo(lista_fonemas=elementos_procesados)
+            if os.path.exists(ruta_generada):
+                with open(ruta_generada, 'rb') as photo:
+                    await update.message.reply_photo(
+                        photo=photo, 
+                        caption=f"Escritura ligada: {texto_usuario}\nSecuencia: {'-'.join(elementos_procesados)}"
+                    )
+        except Exception as e:
+            await update.message.reply_text(f"Error en el motor híbrido: {e}")
     else:
-        await update.message.reply_text("No encontré sonidos consonánticos para dibujar esa frase.")
+        await update.message.reply_text("No identifiqué elementos para dibujar.")
 
 if __name__ == '__main__':
-    application = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
-    
-    application.add_handler(CommandHandler('start', start))
-    application.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), procesar_mensaje))
-    
-    print("Bot activo y configurado de forma segura.")
-    application.run_polling()
+    if not TELEGRAM_TOKEN:
+        print("ERROR: No se encontró el TELEGRAM_BOT_TOKEN en .env")
+    else:
+        application = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
+        application.add_handler(CommandHandler('start', start))
+        application.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), procesar_mensaje))
+        
+        print("Bot iniciado con soporte para gramálogos compuestos.")
+        application.run_polling()

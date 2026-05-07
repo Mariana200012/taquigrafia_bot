@@ -7,12 +7,14 @@ bueno,bueno.jpeg,3
 México,mexico.jpeg,1
 como,como.jpeg,3
 con,con.jpeg,2
-"algo, algun",algo.jpeg,1
+algo,algo.jpeg,1
+algun,algo.jpeg,1
 tiempo,tiempo.jpeg,2
 y,y.jpeg,1
 a,a.jpeg,1
 en,en.jpeg,1
-"un, unos",un.jpeg,1
+un,un.jpeg,1
+unos,un.jpeg,1
 mañana,manana.jpeg,1
 numero,numero.jpeg,3
 muy,muy.jpeg,3
@@ -22,7 +24,8 @@ fecha,fecha.jpeg,2
 mayo,mayo.jpeg,1
 noviembre,noviembre.jpeg,3
 febrero,febrero.jpeg,3
-"familia, familiar",familia.jpeg,1
+familia,familia.jpeg,1
+familiar,familia.jpeg,1
 capital,capital.jpeg,2
 documento,documento.jpeg,3
 comunico,comunico.jpeg,3
@@ -32,29 +35,33 @@ republica,republica.jpeg,2
 republica mexicana,republica_mexicana.jpeg,3
 razon,razon.jpeg,1
 usted,usted.jpeg,3
-ferrocarril,ferrocarril.jpeg,2
+ferrocarril,ferrocaril.jpeg,2
 orden,orden.jpeg,3
 especial,especial.jpeg,3
 seguro servidor,seguro.jpeg,3
 a la,a_la.jpeg,1
 a lo,a_lo.jpeg,3
 irregular,irregular.jpeg,2
-"economico, economia",economico.jpeg,2
+economico,economico.jpeg,2
+economia,economico.jpeg,2
 aunque,aunque.jpeg,1
 dia,dia.jpeg,1
 hay,hay.jpeg,1
 aeroplano,aeroplano.jpeg,1
-hoy ,hoy.jpeg,2
+hoy,hoy.jpeg,2
 aun,aun.jpeg,1
 facil,facil.jpeg,1
 certificado,certificado.jpeg,2
 negocio,negocio.jpeg,2
 es posible,es_posible.jpeg,3
 posible,posible.jpeg,3
-"oficio, oficina, oficial",oficio.jpeg,3
+oficio,oficio.jpeg,3
+oficina,oficio.jpeg,3
+oficial,oficio.jpeg,3
 señor,señor.jpeg,2
 señora,señora.jpeg,2
-"demas, ademas",ademas.jpeg,1
+demas,ademas.jpeg,1
+ademas,ademas.jpeg,1
 sin embargo,sin_embargo.jpeg,3
 no obstante,no_obstante.jpeg,3
 nosotros,nosotros.jpeg,3
@@ -62,12 +69,14 @@ copia certificada,copia_certificada.jpeg,3
 satisfacer,satisfacer.jpeg,3
 suceso,suceso.jpeg,3
 muy señor mio,señor_mio.jpeg,3
-muy señor mio y amigo,amigo.jpeg,3
+muy señor mio,amigo.jpeg,3
+amigo,amigo.jpeg,3
 no es posible,no_posible.jpeg,3
 satisfactorio,satisfactorio.jpeg,1
 satisfecho,satisfecho.jpeg,3
 satisfaga,satisfaga.jpeg,1
-"necesario, necesidad",necesidad.jpeg,2
+necesario,necesidad.jpeg,2
+necesidad,necesidad.jpeg,2
 no es necesario,no_necesario.jpeg,3
 sucesor,sucesor.jpeg,3
 sucesivo,sucesivo.jpeg,3
@@ -84,7 +93,7 @@ recita,recita.jpeg,3
 pasado,pasado.jpeg,3
 alisan,alisan.jpeg,2
 cerro,cerro.jpeg,3
-las ,las.jpeg,1
+las,las.jpeg,1
 riza,riza.jpeg,3
 lazaste,lazaste.jpeg,2
 ,,
