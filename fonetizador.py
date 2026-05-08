@@ -1,52 +1,46 @@
 import re
 
+def obtener_posicion(texto):
+    """Detecta la primera vocal para determinar la posición de toda la palabra."""
+    vocal = next((c for c in texto.lower() if c in 'aeiou'), 'e')
+    if vocal in ['a', 'i']:
+        return 1  # 1ª Posición: Arriba
+    elif vocal in ['e', 'o']:
+        return 2  # 2ª Posición: En la línea
+    elif vocal in ['u']:
+        return 3  # 3ª Posición: Atravesando
+    return 2
+
 def texto_a_fonemas(texto):
-    # Limpieza inicial
     texto = texto.lower().strip()
+    posicion = obtener_posicion(texto) # Calculamos posición una vez por palabra
     fonemas_encontrados = []
     
-    # REGLAS DE SUSTITUCIÓN (El orden es vital: de lo más largo a lo más corto)
     sustituciones = [
-        # Palabras completas o sílabas de 3 letras (Prioridad máxima)
-        ('que', 'que'), ('qui', 'que'), 
-        ('che', 'che'), ('rre', 'rre'), ('lle', 'lle'),
-        
-        # Fonemas de 2 letras (Prioridad media)
-        ('es', 'es'), ('er', 'er'), ('el', 'el'), # <--- Ahora se detectan correctamente
-        ('ce', 'es'), ('ci', 'es'), 
-        ('ca', 'que'), ('co', 'que'), ('cu', 'que'),
-        ('ga', 'gue'), ('go', 'gue'), ('gu', 'gue'),
-        ('ge', 'je'), ('gi', 'je'),
-        ('rr', 'rre'), ('ll', 'lle'),
-        
-        # Letras individuales (Prioridad baja)
-        ('z', 'ze'), ('k', 'que'), ('j', 'je'),
-        ('v', 've'), ('f', 'fe'), ('b', 'be'), ('p', 'pe'),
-        ('d', 'de'), ('t', 'te'), ('m', 'me'), ('n', 'ne'),
-        ('ñ', 'ñe'), ('r', 're'), ('l', 'le'), ('s', 'es')
+        ('que', 'que'), ('qui', 'que'), ('che', 'che'), ('rre', 'rre'), ('lle', 'lle'),
+        ('es', 'es'), ('er', 'er'), ('el', 'el'), ('ce', 'es'), ('ci', 'es'), 
+        ('ca', 'que'), ('co', 'que'), ('cu', 'que'), ('ga', 'gue'), ('go', 'gue'), 
+        ('gu', 'gue'), ('ge', 'je'), ('gi', 'je'), ('rr', 'rre'), ('ll', 'lle'),
+        ('z', 'ze'), ('k', 'que'), ('j', 'je'), ('v', 've'), ('f', 'fe'), ('b', 'be'), 
+        ('p', 'pe'), ('d', 'de'), ('t', 'te'), ('m', 'me'), ('n', 'ne'), ('ñ', 'ñe'), 
+        ('r', 're'), ('l', 'le'), ('s', 'es')
     ]
     
-    # ALGORITMO DE BÚSQUEDA GEOMÉTRICA
     i = 0
     while i < len(texto):
         match_encontrado = False
-        
         for patron, fonema in sustituciones:
-            # Comprueba si el texto en la posición 'i' empieza con el patrón
             if texto.startswith(patron, i):
-                fonemas_encontrados.append(fonema)
+                # Ahora guardamos el fonema con su posición
+                fonemas_encontrados.append({'sonido': fonema, 'posicion': posicion})
                 i += len(patron)
                 match_encontrado = True
                 break
-        
         if not match_encontrado:
-            # Si no es una consonante conocida (es una vocal), saltamos a la siguiente letra
             i += 1 
             
     return fonemas_encontrados
 
-# --- ÁREA DE PRUEBAS ---
 if __name__ == "__main__":
-    test_palabras = ["que", "fe", "es", "nene", "casa"]
-    for p in test_palabras:
-        print(f"Palabra: {p} -> Fonemas: {texto_a_fonemas(p)}")
+    test = "taco"
+    print(f"Palabra: {test} -> {texto_a_fonemas(test)}")
